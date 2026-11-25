@@ -8,10 +8,11 @@
   <title>Юлия — студия наращивания волос</title>
   <link rel="icon" href="data:,">
   <link rel="preload" href="assets/hero.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=photo">
+  <link rel="stylesheet" href="styles.css?v=studio">
   <script defer src="assets/gsap.min.js"></script>
-  <script defer src="photo-preview.js"></script>
-  <script defer src="app.js?v=kaliningrad"></script>
+  <script defer src="studio-renderer.js?v=studio"></script>
+  <script defer src="photo-preview.js?v=studio"></script>
+  <script defer src="app.js?v=studio"></script>
 </head>
 <body>
   <header class="header" id="top">
@@ -38,25 +39,51 @@
     </section>
 
     <section class="atelier wrap section" id="atelier" aria-labelledby="atelier-title">
-      <div class="section-title"><p class="eyebrow">Интерактивная примерочная</p><h2 id="atelier-title">Соберите свой образ</h2><p>Примерьте разные длины, оттенки и текстуры. Посмотрите результат спереди, сбоку и сзади. Стоимость пересчитается сразу.</p></div>
+      <div class="section-title studio-heading">
+        <h2 id="atelier-title">Студия примерки</h2>
+        <p>Подберите длину и цвет, затем поверните модель и рассмотрите пряди вблизи.</p>
+      </div>
       <div class="atelier-grid">
         <div class="viewer">
-          <div class="viewer-top"><span><i></i> Фотопримерка</span><span id="view-caption">50 см · Каштан</span></div>
-          <div id="preview" class="preview"><img class="model-fallback" src="assets/hero.webp" alt="" width="1536" height="1024"><canvas id="look-canvas" role="img" aria-label="Образ спереди"></canvas></div>
-          <div class="viewer-controls" aria-label="Ракурс модели"><button type="button" aria-pressed="true" data-view="front">Спереди</button><button type="button" aria-pressed="false" data-view="side">Сбоку</button><button type="button" aria-pressed="false" data-view="back">Сзади</button></div>
-          <p class="viewer-hint" id="viewer-hint" role="status">Смахните фото или выберите ракурс</p>
+          <div class="viewer-top"><span id="studio-view">Анфас</span><span id="view-caption">50 см · Каштан</span></div>
+          <div id="preview" class="preview" tabindex="0" role="group" aria-label="Управление ракурсом модели" aria-describedby="viewer-hint" aria-busy="true">
+            <img class="model-fallback" src="assets/hero.webp" alt="" width="1536" height="1024">
+            <canvas id="look-canvas" role="img" aria-label="Образ спереди"></canvas>
+          </div>
+          <div class="studio-deck">
+            <div class="viewer-controls" aria-label="Ракурс модели">
+              <button type="button" aria-pressed="true" data-view="0">Анфас</button>
+              <button type="button" aria-pressed="false" data-view="90">Профиль</button>
+              <button type="button" aria-pressed="false" data-view="180">Со спины</button>
+            </div>
+            <div class="camera-controls" aria-label="Масштаб и положение">
+              <button type="button" data-zoom="-1" aria-label="Уменьшить" title="Уменьшить">−</button>
+              <output id="zoom-value" aria-label="Масштаб">100%</output>
+              <button type="button" data-zoom="1" aria-label="Увеличить" title="Увеличить">+</button>
+              <button type="button" id="reset-camera" aria-label="Сбросить ракурс и масштаб" title="Сбросить ракурс и масштаб">↺</button>
+            </div>
+          </div>
+          <p class="viewer-hint" id="viewer-hint">Потяните модель для поворота. Колесо мыши или жест двумя пальцами меняет масштаб.</p>
         </div>
         <div class="config">
-          <div class="config-row"><label for="method">Метод</label><select id="method"></select></div>
-          <fieldset id="length-choice"><legend>Длина, см</legend><div class="options" id="length-options"></div></fieldset>
-          <fieldset id="shade-choice"><legend>Оттенок <span id="shade-name"></span></legend><div class="swatches" id="shade-options"></div></fieldset>
-          <fieldset><legend>Текстура</legend><div class="options" id="texture-options"></div></fieldset>
+          <h3>Параметры образа</h3>
+          <fieldset id="shade-choice">
+            <legend>Оттенок волос</legend>
+            <p id="shade-name" class="shade-name" aria-live="polite"></p>
+            <div class="swatches studio-swatches" id="shade-options"></div>
+          </fieldset>
+          <div class="studio-specs">
+            <fieldset id="length-choice"><legend>Длина</legend><div class="options" id="length-options"></div></fieldset>
+            <fieldset><legend>Текстура</legend><div class="options" id="texture-options"></div></fieldset>
+          </div>
+          <div class="config-row studio-method"><label for="method">Метод наращивания</label><select id="method"></select></div>
           <div class="weight config-row"><label for="weight">Вес прядей</label><output id="weight-value" for="weight">150 г</output><input id="weight" type="range" min="100" max="200" value="150" step="25"></div>
           <div class="estimate"><dl><div><dt>Работа</dt><dd id="estimate-work"></dd></div><div><dt>Волосы</dt><dd id="estimate-hair"></dd></div></dl><div class="estimate-total"><span>Ориентировочная стоимость</span><strong id="estimate-total" aria-live="polite"></strong></div><button type="button" class="button button-dark" data-book>Записаться с этим образом <span aria-hidden="true">↗</span></button></div>
         </div>
       </div>
-      <p class="section-note">Фотореалистичные кадры сгенерированы для примерки. Вес прядей влияет на расчёт стоимости. На консультации Юлия подберёт прядь вживую и уточнит цену по фактическому весу.</p>
+      <p class="section-note">Примерка использует сгенерированные фото на объёмной поверхности. Точный оттенок Юлия подберёт по живой пряди. Вес влияет на расчёт стоимости.</p>
     </section>
+
 
     <section class="prices section" id="prices" aria-labelledby="price-title"><div class="wrap">
       <div class="section-title"><p class="eyebrow">Прайс</p><h2 id="price-title">Услуги и материалы</h2><p>Работа и волосы считаются отдельно.</p></div>

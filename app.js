@@ -11,10 +11,14 @@
   ];
   const hairPrice = { 50: 7500, 60: 9900, 70: 12800 };
   const shades = [
-    { id: 'espresso', label: 'Эспрессо', color: '#231919' },
-    { id: 'chestnut', label: 'Каштан', color: '#532a1d' },
-    { id: 'caramel', label: 'Карамель', color: '#845133' },
-    { id: 'blond', label: 'Медовый блонд', color: '#af784a' },
+    { id: 'noir', label: 'Чёрный', color: '#181618' },
+    { id: 'espresso', label: 'Эспрессо', color: '#342528' },
+    { id: 'chestnut', label: 'Каштан', color: '#5d3225' },
+    { id: 'caramel', label: 'Карамель', color: '#975b35' },
+    { id: 'copper', label: 'Медный', color: '#ba6131' },
+    { id: 'rusy', label: 'Русый', color: '#89715c' },
+    { id: 'blond', label: 'Медовый блонд', color: '#c69a66' },
+    { id: 'ash', label: 'Пепельный блонд', color: '#c6b8a2' },
   ];
   const textures = { straight: 'Прямые', wave: 'Волны', curl: 'Локоны' };
   const looks = [
@@ -42,7 +46,7 @@
   $('length-options').innerHTML = Object.keys(hairPrice).map(length => option(length + ' см', 'length', length)).join('');
   $('texture-options').innerHTML = Object.entries(textures).map(([id, label]) => option(label, 'texture', id)).join('');
   $('shade-options').innerHTML = shades.map(shade =>
-    '<button class="swatch" type="button" aria-pressed="false" aria-label="' + shade.label + '" title="' + shade.label + '" style="--swatch:' + shade.color + '" data-shade="' + shade.id + '"></button>'
+    '<button class="swatch" type="button" aria-pressed="false" aria-label="' + shade.label + '" title="' + shade.label + '" style="--swatch:' + shade.color + '" data-shade="' + shade.id + '"><i aria-hidden="true"></i><span>' + shade.label + '</span></button>'
   ).join('');
   $('price-filters').innerHTML = Object.entries(filters).map(([id, label]) => option(label, 'filter', id)).join('');
   $('look-list').innerHTML = looks.map((look, index) =>
