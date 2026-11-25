@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#161111">
+  <meta name="description" content="Юлия, мастер по наращиванию волос в Москве. Соберите образ в 3D, рассчитайте стоимость и оставьте заявку.">
+  <title>Юлия — студия наращивания волос</title>
+  <link rel="icon" href="data:,">
+  <link rel="preload" href="assets/hero.webp" as="image">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="assets/gsap.min.js"></script>
+  <script defer src="assets/three.js"></script>
+  <script defer src="model.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="header" id="top">
+    <a class="brand" href="#top" aria-label="Юлия, на главную"><span class="monogram">Ю<span>.</span></span><strong>Юлия<span>СТУДИЯ ВОЛОС</span></strong></a>
+    <nav id="navigation" aria-label="Основная навигация">
+      <a href="#atelier">3D-примерка</a><a href="#prices">Услуги</a><a href="#looks">Образы</a><a href="#about">О мастере</a>
+    </nav>
+    <div class="header-actions">
+      <button class="button button-outline header-book" type="button" data-book>Записаться <span aria-hidden="true">↗</span></button>
+      <button class="menu-button" id="menu-button" type="button" aria-controls="navigation" aria-expanded="false" aria-label="Открыть меню"><i></i><i></i></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="headline">
+      <div class="hero-visual"><img src="assets/hero.webp" alt="Длинные каштановые волосы с мягкими волнами" width="1536" height="1024" fetchpriority="high"></div>
+      <div class="hero-inner wrap">
+        <p class="eyebrow hero-location">Наращивание волос <span>·</span> Москва</p>
+        <h1 id="headline">Длина, которая<br>выглядит своей.</h1>
+        <p class="hero-description">Капсулы, ленты и голливудское наращивание. Примерьте длину и оттенок, прежде чем записаться к Юлии.</p>
+        <div class="hero-actions"><a class="button button-gold" href="#atelier">Примерить образ <span aria-hidden="true">↘</span></a><a class="quiet-link" href="#prices">Смотреть цены</a></div>
+        <div class="hero-meta"><span>Наращивание</span><strong>от 9 000 ₽</strong><span>за работу</span></div>
+      </div>
+    </section>
+
+    <section class="atelier wrap section" id="atelier" aria-labelledby="atelier-title">
+      <div class="section-title"><p class="eyebrow">Интерактивная примерочная</p><h2 id="atelier-title">Соберите свой образ</h2><p>Поверните модель и посмотрите, как меняются длина, оттенок и текстура. Стоимость пересчитается сразу.</p></div>
+      <div class="atelier-grid">
+        <div class="viewer">
+          <div class="viewer-top"><span><i></i> 3D-модель</span><span id="view-caption">50 см · Каштан</span></div>
+          <div id="preview" class="preview"><img class="model-fallback" src="assets/hero.webp" alt="" width="1536" height="1024"><canvas id="hair-canvas" aria-label="Вращаемая 3D-модель волос"></canvas></div>
+          <div class="viewer-controls" aria-label="Поворот модели"><button type="button" id="rotate-left" aria-label="Повернуть влево">‹</button><button type="button" id="reset-view">Сзади</button><button type="button" id="rotate-right" aria-label="Повернуть вправо">›</button></div>
+          <p class="viewer-hint" id="viewer-hint">Потяните модель или используйте кнопки поворота</p>
+        </div>
+        <div class="config">
+          <div class="config-row"><label for="method">Метод</label><select id="method"></select></div>
+          <fieldset id="length-choice"><legend>Длина, см</legend><div class="options" id="length-options"></div></fieldset>
+          <fieldset id="shade-choice"><legend>Оттенок <span id="shade-name"></span></legend><div class="swatches" id="shade-options"></div></fieldset>
+          <fieldset><legend>Текстура</legend><div class="options" id="texture-options"></div></fieldset>
+          <div class="weight config-row"><label for="weight">Вес прядей</label><output id="weight-value" for="weight">150 г</output><input id="weight" type="range" min="100" max="200" value="150" step="25"></div>
+          <div class="estimate"><dl><div><dt>Работа</dt><dd id="estimate-work"></dd></div><div><dt>Волосы</dt><dd id="estimate-hair"></dd></div></dl><div class="estimate-total"><span>Ориентировочная стоимость</span><strong id="estimate-total" aria-live="polite"></strong></div><button type="button" class="button button-dark" data-book>Записаться с этим образом <span aria-hidden="true">↗</span></button></div>
+        </div>
+      </div>
+      <p class="section-note">Примерка показывает образ на модели. На консультации Юлия подберёт прядь вживую и уточнит цену по фактическому весу.</p>
+    </section>
+
+    <section class="prices section" id="prices" aria-labelledby="price-title"><div class="wrap">
+      <div class="section-title"><p class="eyebrow">Прайс</p><h2 id="price-title">Услуги и материалы</h2><p>Работа и волосы считаются отдельно.</p></div>
+      <div class="price-filters options" id="price-filters" aria-label="Разделы прайса"></div>
+      <div id="price-list" class="price-list"></div>
+    </div></section>
+
+    <section class="looks section wrap" id="looks" aria-labelledby="looks-title">
+      <div class="section-title"><p class="eyebrow">Длина и цвет</p><h2 id="looks-title">Три образа для примерки</h2><p>Выберите готовое сочетание и настройте его под себя.</p></div>
+      <div class="look-grid" id="look-list"></div>
+      <p class="section-note">Иллюстрации для подбора образа.</p>
+    </section>
+
+    <section class="about section" id="about"><div class="wrap about-grid">
+      <div><p class="eyebrow">О мастере</p><h2>Юлия</h2><p class="about-copy">На консультации Юлия смотрит на густоту и длину ваших волос, подбирает оттенок по живой пряди и объясняет, какой способ крепления подойдёт.</p><button type="button" class="button button-dark" data-book>Записаться к Юлии <span aria-hidden="true">↗</span></button></div>
+      <div class="faq"><h3>Частые вопросы</h3>
+        <details><summary>Как выбрать способ наращивания?</summary><p>Соберите желаемый образ. На консультации мастер проверит состояние волос и поможет выбрать крепление и вес прядей.</p></details>
+        <details><summary>Как считается стоимость?</summary><p>К цене работы добавляется стоимость волос по длине и весу. Цены на материалы указаны за 100 г.</p></details>
+        <details><summary>Сколько времени займёт визит?</summary><p>Ленточное наращивание занимает около двух часов, капсульное — обычно три-четыре. Точное время зависит от объёма работы.</p></details>
+      </div>
+    </div></section>
+  </main>
+  <footer class="footer"><div class="wrap"><a class="brand" href="#top"><span class="monogram">Ю<span>.</span></span><strong>Юлия<span>СТУДИЯ ВОЛОС · МОСКВА</span></strong></a><span>Демонстрационная версия сайта</span></div></footer>
+
+  <aside class="mobile-dock" aria-label="Быстрая запись"><div><span id="dock-label">Капсульное · 50 см</span><strong id="dock-total">23 250 ₽</strong></div><button type="button" class="button button-gold" data-book>Записаться</button></aside>
+
+  <dialog id="booking" aria-labelledby="booking-title">
+    <div class="dialog-content">
+      <div class="dialog-heading"><div><p class="eyebrow">Студия Юлии</p><h2 id="booking-title">Заявка на запись</h2></div><button type="button" id="close-booking" class="close-button" aria-label="Закрыть">×</button></div>
+      <p id="booking-summary" class="booking-summary"></p>
+      <form id="booking-form">
+        <p class="form-note">Укажите желаемое время. Демо сохранит заявку на этом устройстве.</p>
+        <div class="form-grid"><label>Желаемая дата<input name="date" type="date" required></label><label>Время<select name="time"><option>Уточнить с мастером</option><option>Утро</option><option>День</option><option>Вечер</option></select></label></div>
+        <label>Имя<input name="name" required autocomplete="given-name" maxlength="60" placeholder="Как к вам обращаться"></label>
+        <label>Телефон или Telegram<input name="contact" required maxlength="70" placeholder="+7 … или @username"></label>
+        <button type="submit" class="button button-dark">Сохранить тестовую заявку</button>
+        <p id="booking-error" role="alert"></p>
+      </form>
+      <div id="booking-result" hidden><h3>Тестовая заявка сохранена</h3><p>Готовый текст можно скопировать и переслать мастеру в мессенджере.</p><textarea id="booking-text" readonly aria-label="Текст заявки" rows="6"></textarea><div class="result-actions"><button type="button" class="button button-dark" id="copy-booking">Скопировать заявку</button><button type="button" class="button button-light" id="share-booking" hidden>Поделиться</button></div><p id="copy-status" role="status"></p></div>
+    </div>
+  </dialog>
+</body>
+</html>
