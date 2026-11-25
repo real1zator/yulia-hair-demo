@@ -65,10 +65,10 @@ h1,h2,h3,p,dl,dd{margin:0}
 .preview canvas,.model-fallback{height:100%;width:100%;position:absolute;inset:0;display:block;pointer-events:none;user-select:none}
 .preview canvas{opacity:0}
 .model-fallback{object-fit:cover;object-position:70% 40%;opacity:.55}
-.preview.has-photo canvas{opacity:1}
-.preview.has-photo .model-fallback{display:none}
-.preview .flat-preview{object-fit:contain;transform:translate(var(--pan-x,0%),var(--pan-y,0%)) perspective(780px) rotateX(var(--pitch,0deg)) rotateY(var(--relative-yaw,0deg)) scale(var(--zoom,1));transform-origin:50% 29%}
-.studio-deck{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 0;border-top:1px solid #6b4c3b}
+.preview.has-model canvas{opacity:1}
+.preview.has-model .model-fallback{display:none}
+
+.studio-state{position:absolute;inset:auto 10% 12%;z-index:2;padding:12px;background:#231915e8;color:#ffe8cf;border:1px solid #aa8063;border-radius:8px;text-align:center;font-size:14px}.studio-state a{text-decoration:underline;text-underline-offset:3px}.studio-deck{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 0;border-top:1px solid #6b4c3b}
 .viewer-controls,.camera-controls{display:flex;align-items:center;gap:2px;padding:3px;border:1px solid #76513e;border-radius:9px;background:#231714;white-space:nowrap;max-width:100%}
 .viewer-controls button,.camera-controls button{border:0;min-height:42px;padding:4px 10px;background:transparent;color:#ffe8cf;font-size:13px;border-radius:6px}
 .viewer-controls button:hover,.camera-controls button:hover{background:#ffdfb61a}
