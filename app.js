@@ -25,7 +25,7 @@
   const state = { method: 'capsule', length: 50, shade: 'chestnut', texture: 'wave', weight: 150 };
   const filters = { all: 'Весь прайс', extension: 'Наращивание', care: 'Уход', material: 'Волосы' };
   const money = new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 });
-  const calendar = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Moscow', year: 'numeric', month: '2-digit', day: '2-digit' });
+  const calendar = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Kaliningrad', year: 'numeric', month: '2-digit', day: '2-digit' });
   const formatDate = new Intl.DateTimeFormat('ru-RU', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' });
   const $ = id => document.getElementById(id);
   const serviceById = id => services.find(service => service.id === id);
