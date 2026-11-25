@@ -203,9 +203,9 @@
   renderOptions();
   document.addEventListener('hair-preview-ready', updateImage);
   if (location.protocol === 'file:') {
-    const stage = studio-status;
+    const stage = document.getElementById('studio-status');
     stage.textContent = 'Для 3D-примерки откройте демо онлайн.';
-    preview.setAttribute('aria-busy', 'false');
+    document.getElementById('preview').setAttribute('aria-busy', 'false');
     const link = document.createElement('a');
     link.href = 'https://real1zator.github.io/yulia-hair-demo/?v=3d#atelier';
     link.textContent = ' Открыть';
