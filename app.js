@@ -11,10 +11,10 @@
   ];
   const hairPrice = { 50: 7500, 60: 9900, 70: 12800 };
   const shades = [
-    { id: 'espresso', label: 'Эспрессо', color: '#231919', highlight: '#754b46' },
-    { id: 'chestnut', label: 'Каштан', color: '#532a1d', highlight: '#a65b38' },
-    { id: 'caramel', label: 'Карамель', color: '#845133', highlight: '#d68d5e' },
-    { id: 'blond', label: 'Медовый блонд', color: '#af784a', highlight: '#f1bf83' },
+    { id: 'espresso', label: 'Эспрессо', color: '#231919' },
+    { id: 'chestnut', label: 'Каштан', color: '#532a1d' },
+    { id: 'caramel', label: 'Карамель', color: '#845133' },
+    { id: 'blond', label: 'Медовый блонд', color: '#af784a' },
   ];
   const textures = { straight: 'Прямые', wave: 'Волны', curl: 'Локоны' };
   const looks = [
@@ -61,7 +61,6 @@
     $('weight').value = state.weight;
     $('method').value = state.method;
     $('shade-name').textContent = shade.label;
-    $('view-caption').textContent = state.length + ' см · ' + shade.label;
     $('estimate-work').textContent = price(service.price);
     $('estimate-hair').textContent = price(material);
     $('estimate-total').textContent = total;
@@ -108,7 +107,7 @@
   }
 
   $('method').addEventListener('change', event => { state.method = event.target.value; renderOptions(); });
-  $('weight').addEventListener('input', event => { state.weight = Number(event.target.value); renderOptions(); updateImage(); });
+  $('weight').addEventListener('input', event => { state.weight = Number(event.target.value); renderOptions(); });
   document.addEventListener('click', event => {
     const button = event.target.closest('button');
     if (!button) return;
