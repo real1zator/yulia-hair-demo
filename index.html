@@ -8,11 +8,11 @@
   <title>Юлия — студия наращивания волос</title>
   <link rel="icon" href="data:,">
   <link rel="preload" href="assets/hero.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=3d">
+  <link rel="stylesheet" href="styles.css?v=ar">
   <script defer src="assets/gsap.min.js"></script>
   <script type="importmap">{"imports":{"three":"./assets/three/three.module.min.js"}}</script>
-  <script type="module" src="studio-controls.js?v=3d"></script>
-  <script defer src="app.js?v=3d"></script>
+  <script type="module" src="studio-controls.js?v=ar"></script>
+  <script defer src="app.js?v=ar"></script>
 </head>
 <body>
   <header class="header" id="top">
@@ -41,17 +41,25 @@
     <section class="atelier wrap section" id="atelier" aria-labelledby="atelier-title">
       <div class="section-title studio-heading">
         <h2 id="atelier-title">3D-студия примерки</h2>
-        <p>Подберите длину и цвет, затем поверните модель и рассмотрите пряди вблизи.</p>
+        <p>Подберите образ на модели или примерьте выбранные волосы на себе с помощью камеры.</p>
       </div>
       <div class="atelier-grid">
         <div class="viewer">
-          <div class="viewer-top"><span id="studio-view">Анфас</span><span id="view-caption">50 см · Каштан</span></div>
+          <div class="viewer-top">
+            <div class="studio-modes" role="group" aria-label="Режим примерки">
+              <button type="button" class="studio-mode" id="mode-model" aria-pressed="true">На модели</button>
+              <button type="button" class="studio-mode" id="mode-camera" aria-pressed="false" disabled>На себе</button>
+            </div>
+            <span id="view-caption">50 см · Каштан</span>
+          </div>
           <div id="preview" class="preview" tabindex="0" role="group" aria-label="Управление ракурсом модели" aria-describedby="viewer-hint" aria-busy="true">
             <img class="model-fallback" src="assets/hero.webp" alt="" width="1536" height="1024">
+            <video id="studio-video" muted playsinline hidden aria-label="Зеркальное изображение с камеры"></video>
+            <span id="studio-view" class="studio-readout">Анфас</span>
             <p class="studio-state" id="studio-status" role="status">Загружаем 3D-модель…</p>
             <canvas id="look-canvas" role="img" aria-label="Образ спереди"></canvas>
           </div>
-          <div class="studio-deck">
+          <div class="studio-deck" id="studio-deck">
             <div class="viewer-controls" aria-label="Ракурс модели">
               <button type="button" aria-pressed="true" data-view="0">Анфас</button>
               <button type="button" aria-pressed="false" data-view="90">Профиль</button>

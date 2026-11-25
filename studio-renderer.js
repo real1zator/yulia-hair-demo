@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from './assets/three/GLTFLoader.js';
+import { createFaceHairScene } from './face-hair-scene.js?v=ar';
 
 const radians = Math.PI / 180;
 const stageCenter = new THREE.Vector3(-.006, 1.112, .027);
@@ -186,24 +187,47 @@ export async function createStudio(canvas) {
 
   let width = 0, height = 0, ratio = 0;
   let zoomedTarget = 1.30;
+  let liveView;
+
+  function updateSize() {
+    const nextWidth = canvas.clientWidth;
+    const nextHeight = canvas.clientHeight;
+    if (!nextWidth || !nextHeight) return false;
+    const nextRatio = Math.min(window.devicePixelRatio || 1, 2);
+    if (width !== nextWidth || height !== nextHeight || ratio !== nextRatio) {
+      width = nextWidth;
+      height = nextHeight;
+      ratio = nextRatio;
+      renderer.setPixelRatio(ratio);
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+    }
+    return true;
+  }
   return {
     setLook(options) {
       zoomedTarget = options.length === 70 ? 1.245 : 1.30;
       setHair(options);
     },
+    enableCamera(triangles) {
+      liveView = createFaceHairScene(hairFile.scene, triangles);
+      studioLighting(liveView.scene);
+      this.renderFace(null, 0, 0);
+    },
+    renderFace(points, videoWidth, videoHeight) {
+      if (!liveView || !updateSize()) return false;
+      const visible = liveView.place(points, videoWidth, videoHeight, width, height);
+      renderer.render(liveView.scene, liveView.camera);
+      return visible;
+    },
+    disableCamera() {
+      if (!liveView) return;
+      liveView.dispose();
+      liveView = undefined;
+      scene.add(hairFile.scene);
+    },
     render({ yaw, pitch, zoom, panX, panY }) {
-      const nextWidth = canvas.clientWidth;
-      const nextHeight = canvas.clientHeight;
-      if (!nextWidth || !nextHeight) return;
-      const nextRatio = Math.min(window.devicePixelRatio || 1, 2);
-      if (width !== nextWidth || height !== nextHeight || ratio !== nextRatio) {
-        width = nextWidth;
-        height = nextHeight;
-        ratio = nextRatio;
-        renderer.setPixelRatio(ratio);
-        renderer.setSize(width, height, false);
-        camera.aspect = width / height;
-      }
+      if (!updateSize()) return;
       const close = THREE.MathUtils.clamp((zoom - 1) / 2, 0, 1);
       const distance = 1.42 / zoom * Math.max(1, .86 / camera.aspect);
       const azimuth = yaw * radians;
